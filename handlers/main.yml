@@ -1,0 +1,7 @@
+- name: restart httpd
+  systemd:
+    name: "{{app.value.httpd.user.user}}-httpd-{{app.key}}.service"
+    state: restarted
+    daemon_reload: True
+  become: True
+
