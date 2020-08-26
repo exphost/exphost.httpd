@@ -7,11 +7,16 @@
     yum:
       name: policycoreutils-python
 
+  - name: install remi release
+    yum:
+      name: https://rpms.remirepo.net/enterprise/remi-release-7.rpm
+
   - name: install httpd and php
     yum:
       name:
         - httpd
-        - php
+        - php74-php
+        - php74-php-pecl-mysql
 
   - name: create dirs
     file:
