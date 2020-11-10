@@ -15,6 +15,7 @@
     yum:
       name:
         - httpd
+        - mod_proxy_uwsgi
         - php74-php
         - php74-php-pecl-mysql
 
