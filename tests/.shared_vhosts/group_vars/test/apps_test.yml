@@ -1,0 +1,46 @@
+apps_httpd:
+  httpd:
+    httpd:
+      enabled: True
+      type: exphost.httpd
+      user:
+        uid: 516
+      configs:
+        ports:
+          - 8084
+      vhosts:
+        vhost1:
+          urls:
+            - test-vhost1.example.com
+          root: var/www/test-vhost1
+        vhost2:
+          urls:
+            - test-vhost2.example.com
+            - test-vhost2.example.pl
+          root: var/www/test-vhost2
+        vhost3:
+          root: var/www/test-vhost3
+          configs:
+            port: 8085
+      downloads:
+        - src:
+            type: git
+            repo:
+              path: https://github.com/exphost/test_app.git
+              version: http_app_1
+          dest:
+            path: /app/httpd/httpd/var/www/test-vhost1
+        - src:
+            type: git
+            repo:
+              path: https://github.com/exphost/test_app.git
+              version: http_app_2
+          dest:
+            path: /app/httpd/httpd/var/www/test-vhost2
+        - src:
+            type: git
+            repo:
+              path: https://github.com/exphost/test_app.git
+              version: http_app_3
+          dest:
+            path: /app/httpd/httpd/var/www/test-vhost3
