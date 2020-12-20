@@ -78,6 +78,20 @@
       state: present
     loop: '{{ app.value.httpd.configs.ports + app.value.httpd.vhosts|json_query("*.configs.port") }}'
 
+  - name: add proxypassed port to selinux
+    seport:
+      ports: "{{ item }}"
+      proto: tcp
+      setype: http_port_t
+      state: present
+    loop: "{{ app.value.httpd.vhosts|json_query('*.locations[].proxy_pass.servers[]')|map('urlsplit', 'port') }}"
+
+  - name: allow httpd to network connect
+    seboolean:
+      name: httpd_can_network_connect
+      state: yes
+      persistent: yes
+
   - name: www secontext
     sefcontext:
       target: '{{ app.value.httpd.user.home }}/httpd/var/www(/.*)?'
