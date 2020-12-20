@@ -6,8 +6,8 @@ Documentation=man:apachectl(8)
 
 [Service]
 Type=notify
-ExecStart=/usr/sbin/httpd -d {{app.value.httpd.user.home}}/httpd/ -DFOREGROUND
-ExecReload=/usr/sbin/httpd -d {{app.value.httpd.user.home}}/httpd -k graceful
+ExecStart=/usr/sbin/httpd -d {{ app.value.httpd.user.home }}/httpd/ -DFOREGROUND
+ExecReload=/usr/sbin/httpd -d {{ app.value.httpd.user.home }}/httpd -k graceful
 ExecStop=/bin/kill -WINCH ${MAINPID}
 # We want systemd to give httpd some time to finish gracefully, but still want
 # it to kill httpd after TimeoutStopSec if something went wrong during the
@@ -16,8 +16,8 @@ ExecStop=/bin/kill -WINCH ${MAINPID}
 # httpd time to finish.
 KillSignal=SIGCONT
 PrivateTmp=true
-User={{app.value.httpd.user.user}}
-WorkingDirectory={{app.value.httpd.user.home}}/httpd
+User={{ app.value.httpd.user.user }}
+WorkingDirectory={{ app.value.httpd.user.home }}/httpd
 
 [Install]
 WantedBy=multi-user.target

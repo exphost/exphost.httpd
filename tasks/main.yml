@@ -21,9 +21,10 @@
 
   - name: create dirs
     file:
-      path: "{{app.value.httpd.user.home}}/httpd/{{item.path}}"
-      setype: "{{item.setype|default(omit)}}"
+      path: "{{ app.value.httpd.user.home }}/httpd/{{ item.path }}"
+      setype: "{{ item.setype|default(omit) }}"
       state: directory
+      mode: 0755
     loop:
       - path: conf
         setype: httpd_config_t
@@ -31,11 +32,12 @@
 
   - name: create user dirs
     file:
-      path: "{{app.value.httpd.user.home}}/httpd/{{item.path}}"
+      path: "{{ app.value.httpd.user.home }}/httpd/{{ item.path }}"
       state: directory
-      owner: "{{app.value.httpd.user.user}}"
-      group: "{{app.value.httpd.user.group}}"
-      setype: "{{item.setype|default(omit)}}"
+      owner: "{{ app.value.httpd.user.user }}"
+      group: "{{ app.value.httpd.user.group }}"
+      setype: "{{ item.setype|default(omit) }}"
+      mode: 0755
     loop:
       - path: logs
         setype: httpd_log_t
@@ -51,39 +53,41 @@
   - name: link modules
     file:
       state: link
-      path: "{{app.value.httpd.user.home}}/httpd/modules"
+      path: "{{ app.value.httpd.user.home }}/httpd/modules"
       src: /usr/lib64/httpd/modules
       setype: httpd_modules_t
       follow: False
 
   - name: ports
     seport:
-      ports: "{{item}}"
+      ports: "{{ item }}"
       proto: tcp
       setype: http_port_t
       state: present
-    loop: '{{app.value.httpd.configs.ports + app.value.httpd.vhosts|json_query("*.configs.port")}}'
+    loop: '{{ app.value.httpd.configs.ports + app.value.httpd.vhosts|json_query("*.configs.port") }}'
 
   - name: www secontext
     sefcontext:
-      target: '{{app.value.httpd.user.home}}/httpd/var/www(/.*)?'
+      target: '{{ app.value.httpd.user.home }}/httpd/var/www(/.*)?'
       setype: httpd_sys_content_t
       state: present
 
   - name: copy magic file
     template:
-      src: "{{item.path}}"
-      dest: "{{app.value.httpd.user.home}}/httpd/conf/{{item.path}}"
-      setype: "{{item.setype|default(omit)}}"
+      src: "{{ item.path }}"
+      dest: "{{ app.value.httpd.user.home }}/httpd/conf/{{ item.path }}"
+      setype: "{{ item.setype|default(omit) }}"
+      mode: 0644
     loop:
       - path: magic
         setype: httpd_config_t
   - name: copy config file
     template:
-      src: "{{item.path}}"
-      dest: "{{app.value.httpd.user.home}}/httpd/conf/{{item.path}}"
-      setype: "{{item.setype|default(omit)}}"
-      validate: "/usr/sbin/httpd -d {{app.value.httpd.user.home}}/httpd/httpd/ -t -f %s"
+      src: "{{ item.path }}"
+      dest: "{{ app.value.httpd.user.home }}/httpd/conf/{{ item.path }}"
+      setype: "{{ item.setype|default(omit) }}"
+      validate: "/usr/sbin/httpd -d {{ app.value.httpd.user.home }}/httpd/httpd/ -t -f %s"
+      mode: 0644
     loop:
       - path: httpd.conf
         setype: httpd_config_t
@@ -93,7 +97,8 @@
   - name: copy service file
     template:
       src: httpd.service
-      dest: "/etc/systemd/system/{{app.value.httpd.user.user}}-httpd-{{app.key}}.service"
+      dest: "/etc/systemd/system/{{ app.value.httpd.user.user }}-httpd-{{ app.key }}.service"
+      mode: 0644
     notify:
       - restart httpd
 
@@ -101,7 +106,7 @@
 
   - name: start httpd
     systemd:
-      name: "{{app.value.httpd.user.user}}-httpd-{{app.key}}.service"
+      name: "{{ app.value.httpd.user.user }}-httpd-{{ app.key }}.service"
       state: started
       enabled: True
       daemon_reload: True

@@ -16,4 +16,4 @@ galaxy_info:
 
 dependencies:
   - role: exphost.create_user
-    user: "{{app.value.httpd.user}}"
+    user: "{{ app.value.httpd.user }}"

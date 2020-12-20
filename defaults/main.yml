@@ -1,6 +1,6 @@
 app_defaults:
   user:
-    user: "{{app.key}}"
-    group: "{{app.key}}"
-    home: "/app/{{app.key}}"
-    gid: "{{app.value.httpd.user.uid}}"
+    user: "{{ app.key }}"
+    group: "{{ app.key }}"
+    home: "/app/{{ app.key }}"
+    gid: "{{ app.value.httpd.user.uid }}"
