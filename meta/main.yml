@@ -22,4 +22,6 @@ dependencies:
     vars:
       downloads: "{{ app.value.httpd.downloads }}"
       user: "{{ app.value.httpd.user }}"
+      notifiers:
+        - "restorecon httpd"
     when: app.value.httpd.downloads | default(False)
