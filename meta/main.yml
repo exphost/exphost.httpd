@@ -17,3 +17,8 @@ galaxy_info:
 dependencies:
   - role: exphost.create_user
     user: "{{ app.value.httpd.user }}"
+  - role: exphost.download
+    vars:
+      downloads: "{{ app.value.httpd.downloads }}"
+      user: "{{ app.value.httpd.user }}"
+    when: app.value.httpd.downloads
