@@ -1,12 +1,12 @@
+---
 - name: restorecon httpd
   command: "restorecon -ivr {{ app.value.httpd.user.home }}/httpd/var/www"
-  become: True
+  become: true
   become_user: root
 
 - name: restart httpd
   systemd:
     name: "{{ app.value.httpd.user.user }}-httpd-{{ app.key }}.service"
     state: restarted
-    daemon_reload: True
-  become: True
-
+    daemon_reload: true
+  become: true
