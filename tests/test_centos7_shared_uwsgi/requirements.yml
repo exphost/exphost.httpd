@@ -1,0 +1,9 @@
+roles:
+  - name: exphost.instances_libvirt
+    version: v1.2.1
+  - name: exphost.create_user
+    version: v1.1.1
+  - name: exphost.download
+    version: v1.0.1
+  - name: exphost.django
+    version: v1.0.0
