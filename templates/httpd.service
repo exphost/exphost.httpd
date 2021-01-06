@@ -16,7 +16,6 @@ ExecStop=/bin/kill -WINCH ${MAINPID}
 # httpd time to finish.
 KillSignal=SIGCONT
 PrivateTmp=true
-User={{ app.value.httpd.user.user }}
 WorkingDirectory={{ app.value.httpd.user.home }}/httpd
 
 [Install]
