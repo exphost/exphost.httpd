@@ -23,6 +23,7 @@
       yum:
         name:
           - httpd
+          - mod_ssl
           - php74-php
           - php74-php-pecl-mysql
 

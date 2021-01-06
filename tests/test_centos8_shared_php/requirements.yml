@@ -7,3 +7,5 @@ roles:
     version: v1.0.1
   - name: exphost.django
     version: v1.0.0
+  - name: exphost.ssl_generator
+    version: v0.1.0
