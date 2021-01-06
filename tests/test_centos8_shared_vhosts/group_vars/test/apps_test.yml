@@ -29,6 +29,10 @@ apps_httpd:
           rewrites:
             - rule: "/wp https://wp.pl [R,L]"
             - rule: "/onet https://onet.pl [R,L]"
+        vhost5:
+          root: var/www/test-vhost5
+          configs:
+            port: 8085
       downloads:
         - src:
             type: git
