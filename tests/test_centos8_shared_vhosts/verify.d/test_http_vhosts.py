@@ -25,3 +25,7 @@ def test_http_static_vhost3(host):
 def test_http_php_vhost3(host):
     response = host.check_output("curl 127.0.0.1:8085/sum.php")
     assert response == "3+3=6"
+
+def test_http_rewrite_vhost4(host):
+    assert host.check_output("curl http://127.0.0.1:8084/wp -H 'Host: test-vhost4.example.com' -I -w '%{redirect_url}' -s -o /dev/null") == "https://wp.pl"
+    assert host.check_output("curl http://127.0.0.1:8084/onet -H 'Host: test-vhost4.example.com' -I -w '%{redirect_url}' -s -o /dev/null") == "https://onet.pl"
