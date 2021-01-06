@@ -46,4 +46,3 @@ apps_httpd:
               proxy_pass:
                 servers:
                   - "uwsgi://127.0.0.1:8001"
-
