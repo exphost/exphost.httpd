@@ -28,7 +28,9 @@ apps_httpd:
             - test-vhost4.example.com
           rewrites:
             - rule: "/wp https://wp.pl [R,L]"
+              directory: False
             - rule: "/onet https://onet.pl [R,L]"
+              directory: False
         vhost5:
           root: var/www/test-vhost5
           configs:
