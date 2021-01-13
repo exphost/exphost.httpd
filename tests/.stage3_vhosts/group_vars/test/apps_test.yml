@@ -31,6 +31,14 @@ apps_httpd:
               directory: False
             - rule: "/onet https://onet.pl [R,L]"
               directory: False
+          directories:
+            - path: /srv/http/test
+              raw: |
+                AllowOverride None
+                Require all granted
+          aliases:
+            - from: /path2
+              to: /srv/http/test
         vhost5:
           root: var/www/test-vhost5
           configs:
