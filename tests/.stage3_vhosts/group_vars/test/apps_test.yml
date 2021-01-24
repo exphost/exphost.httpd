@@ -30,7 +30,7 @@ apps_httpd:
             - rule: "/wp https://wp.pl [R,L]"
               directory: False
             - rule: "/onet https://onet.pl [R,L]"
-              directory: False
+              directory: None
           directories:
             - path: /srv/http/test
               raw: |
