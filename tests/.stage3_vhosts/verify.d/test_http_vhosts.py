@@ -44,3 +44,17 @@ def test_http_directory_vhost4(host):
         check=False)
     assert host.check_output("curl -H 'Host: test-vhost4.example.com' http://127.0.0.1:8084/path1/file.txt") == "test_file1"
     assert host.check_output("curl -H 'Host: test-vhost4.example.com' http://127.0.0.1:8084/path2/file.txt") == "test_file2"
+
+def test_http_basic_auth_vhost5(host):
+    response = host.check_output("curl 127.0.0.1:8085/content.txt -H 'Host: test-vhost5.example.com' -o /dev/null -w '%{http_code}' -s")
+    assert response == "401"
+
+    response = host.check_output("curl 127.0.0.1:8085/content.txt -H 'Host: test-vhost5.example.com' -o /dev/null -w '%{http_code}' -s -u u1:password1")
+    assert response == "200"
+    response = host.check_output("curl 127.0.0.1:8085/content.txt -H 'Host: test-vhost5.example.com' -o /dev/null -w '%{http_code}' -s -u u2:password2")
+    assert response == "200"
+    response = host.check_output("curl 127.0.0.1:8085/content.txt -H 'Host: test-vhost5.example.com' -o /dev/null -w '%{http_code}' -s -u u3:password3")
+    assert response == "401"
+
+    response = host.check_output("curl 127.0.0.1:8085/content.txt -H 'Host: test-vhost5.example.com' -s -u u1:password1")
+    assert response == "http_app_1"

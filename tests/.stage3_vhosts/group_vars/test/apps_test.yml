@@ -43,6 +43,26 @@ apps_httpd:
           root: var/www/test-vhost5
           configs:
             port: 8085
+          urls:
+            - test-vhost5.example.com
+          htpasswd_users:
+            u1:
+              password: password1
+            u2:
+              password: password2
+            u3:
+              password: "none"
+              state: absent
+          directories:
+            - path: var/www/test-vhost5
+              auth:
+                type: Basic
+                name: "Secret site"
+                provider_type: file
+                provider:
+                  #path: 
+                require: valid-user
+
       downloads:
         - src:
             type: git
@@ -65,3 +85,10 @@ apps_httpd:
               version: http_app_3
           dest:
             path: /app/httpd/httpd/var/www/test-vhost3
+        - src:
+            type: git
+            repo:
+              path: https://github.com/exphost/test_app.git
+              version: http_app_1
+          dest:
+            path: /app/httpd/httpd/var/www/test-vhost5

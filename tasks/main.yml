@@ -33,6 +33,18 @@
           - mod_proxy_uwsgi
       when: ansible_distribution_major_version == "7"
 
+    - name: install helper libs
+      yum:
+        name:
+          - python-passlib
+      when: ansible_distribution_major_version == "7"
+
+    - name: install helper libs
+      yum:
+        name:
+          - python3-passlib
+      when: ansible_distribution_major_version == "8"
+
     - name: create dirs
       file:
         path: "{{ app.value.httpd.user.home }}/httpd/{{ item.path }}"
@@ -99,6 +111,12 @@
         target: '{{ app.value.httpd.user.home }}/httpd/var/www(/.*)?'
         setype: httpd_sys_content_t
         state: present
+
+    - name: create htpasswd accounts
+      include_tasks: htpasswd_users.yml
+      loop: "{{ app.value.httpd.vhosts|default({}) | dict2items }}"
+      loop_control:
+        loop_var: _vhost
 
     - name: copy magic file
       template:
