@@ -58,3 +58,8 @@ def test_http_basic_auth_vhost5(host):
 
     response = host.check_output("curl 127.0.0.1:8085/content.txt -H 'Host: test-vhost5.example.com' -s -u u1:password1")
     assert response == "http_app_1"
+
+def test_files_copier(host):
+    f = host.file("/tmp/file1.txt")
+    assert f.exists
+    assert f.content_string == "test_string\n"

@@ -148,6 +148,13 @@
       notify:
         - restart httpd
 
+    - name: copy files
+      vars:
+        files: "{{ app.value.httpd.files }}"
+      include_role:
+        name: exphost.files_copier
+      when: app.value.httpd.files|default(False)
+
     - meta: flush_handlers
 
     - name: start httpd

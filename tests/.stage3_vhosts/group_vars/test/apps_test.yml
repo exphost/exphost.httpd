@@ -92,3 +92,8 @@ apps_httpd:
               version: http_app_1
           dest:
             path: /app/httpd/httpd/var/www/test-vhost5
+       
+      files:
+        file1:
+          src: file1.txt
+          dest: /tmp/file1.txt

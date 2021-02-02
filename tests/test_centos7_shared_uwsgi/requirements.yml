@@ -9,3 +9,5 @@ roles:
     version: v1.0.0
   - name: exphost.ssl_generator
     version: v0.1.0
+  - name: exphost.files_copier
+    version: v0.1.1
